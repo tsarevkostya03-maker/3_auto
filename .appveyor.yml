@@ -1,0 +1,17 @@
+image: Ubuntu2004
+
+stack: jdk 11
+
+build:
+  off
+
+install:
+  - java -jar ./artifacts/app-order.jar &
+  - sleep 5
+
+build_script:
+  - ./gradlew test
+
+artifacts:
+  - path: build/reports/tests/test/index.html
+    name: test-report
