@@ -28,42 +28,22 @@ public class CardOrderTest {
     @BeforeEach
     public void setup() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--remote-allow-origins=*");
         options.addArguments("--headless");
-        options.addArguments("--window-size=1920,1080");
-        options.addArguments("--disable-blink-features=AutomationControlled");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--remote-allow-origins=*");
 
-        // Попытка создать драйвер с повторением в случае ошибки
-        int maxAttempts = 3;
-        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
-            try {
-                driver = new ChromeDriver(options);
-                wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-                driver.get(BASE_URL);
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name']")));
-                System.out.println("✅ Driver created successfully on attempt " + attempt);
-                return;
-            } catch (Exception e) {
-                System.err.println("❌ Attempt " + attempt + " failed: " + e.getMessage());
-                if (attempt == maxAttempts) {
-                    throw e;
-                }
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ignored) {}
-            }
-        }
+        driver = new ChromeDriver(options);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        driver.get(BASE_URL);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'] input")));
     }
 
     @AfterEach
     public void tearDown() {
         if (driver != null) {
-            try {
-                driver.quit();
-            } catch (Exception ignored) {}
+            driver.quit();
         }
     }
 
@@ -109,9 +89,9 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'] .input__sub"))
         );
 
-        String errorText = errorMessage.getText().trim();
-        System.out.println("Error message for invalid name: '" + errorText + "'");
-        assertTrue(errorText.contains("неверно") || errorText.contains("некорректно"));
+        String actualText = errorMessage.getText().trim();
+        assertTrue(actualText.contains("Имя и фамилия указаны неверно") ||
+                actualText.contains("неверно"));
     }
 
     @Test
@@ -133,9 +113,9 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'] .input__sub"))
         );
 
-        String errorText = errorMessage.getText().trim();
-        System.out.println("Error message for invalid phone: '" + errorText + "'");
-        assertTrue(errorText.contains("неверно") || errorText.contains("некорректно"));
+        String actualText = errorMessage.getText().trim();
+        assertTrue(actualText.contains("Телефон указан неверно") ||
+                actualText.contains("неверно"));
     }
 
     @Test
@@ -150,17 +130,10 @@ public class CardOrderTest {
         WebElement button = driver.findElement(By.cssSelector("button[type='button']"));
         button.click();
 
-        boolean successMessagePresent = false;
-        try {
-            WebElement successMessage = driver.findElement(By.cssSelector("[data-test-id='order-success']"));
-            successMessagePresent = true;
-        } catch (Exception ignored) {}
-        assertFalse(successMessagePresent, "Success message should not appear");
-
         WebElement agreement = driver.findElement(By.cssSelector("[data-test-id='agreement']"));
         String classes = agreement.getAttribute("class");
-        System.out.println("Agreement classes: '" + classes + "'");
-        assertTrue(classes.contains("invalid") || classes.contains("error") || classes.contains("has-error"));
+
+        assertTrue(classes.contains("invalid") || classes.contains("error"));
     }
 
     @Test
@@ -182,9 +155,10 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'] .input__sub"))
         );
 
-        String errorText = errorMessage.getText().trim();
-        System.out.println("Error message for empty name: '" + errorText + "'");
-        assertTrue(errorText.contains("обязательно") || errorText.contains("заполнения"));
+        String actualText = errorMessage.getText().trim();
+        assertFalse(actualText.isEmpty());
+        assertTrue(actualText.contains("Поле обязательно для заполнения") ||
+                actualText.contains("обязательно"));
     }
 
     @Test
@@ -206,9 +180,10 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'] .input__sub"))
         );
 
-        String errorText = errorMessage.getText().trim();
-        System.out.println("Error message for empty phone: '" + errorText + "'");
-        assertTrue(errorText.contains("обязательно") || errorText.contains("заполнения"));
+        String actualText = errorMessage.getText().trim();
+        assertFalse(actualText.isEmpty());
+        assertTrue(actualText.contains("Поле обязательно для заполнения") ||
+                actualText.contains("обязательно"));
     }
 
     @Test

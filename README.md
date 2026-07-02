@@ -1,5 +1,7 @@
 # Автотесты для формы заказа карты
 
+[![Build status](https://ci.appveyor.com/api/projects/status/ВАШ_ПРОЕКТ?svg=true)](https://ci.appveyor.com/project/tsarevkostya03-maker/3-auto)
+
 ## Описание проекта
 Автотесты для тестирования формы заказа дебетовой карты с использованием Selenium.
 
