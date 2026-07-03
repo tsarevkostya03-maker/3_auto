@@ -1,6 +1,6 @@
 # Автотесты для формы заказа карты
 
-[![Build status](https://ci.appveyor.com/api/projects/status/ВАШ_ПРОЕКТ?svg=true)](https://ci.appveyor.com/project/tsarevkostya03-maker/3-auto)
+[![Java CI with Gradle](https://github.com/tsarevkostya03-maker/3_auto/actions/workflows/gradle.yml/badge.svg)](https://github.com/tsarevkostya03-maker/3_auto/actions/workflows/gradle.yml)
 
 ## Описание проекта
 Автотесты для тестирования формы заказа дебетовой карты с использованием Selenium.
@@ -11,6 +11,7 @@
 - Selenium WebDriver
 - WebDriverManager
 - Gradle
+- GitHub Actions
 
 ## Запуск тестов
 
