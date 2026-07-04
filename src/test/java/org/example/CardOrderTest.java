@@ -86,12 +86,11 @@ public class CardOrderTest {
         button.click();
 
         WebElement errorMessage = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'] .input__sub"))
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'].input_invalid .input__sub"))
         );
 
-        String actualText = errorMessage.getText().trim();
-        assertTrue(actualText.contains("Имя и фамилия указаны неверно") ||
-                actualText.contains("неверно"));
+        String expectedError = "Имя и фамилия указаны неверно. Допустимы только русские буквы, пробелы и дефисы.";
+        assertEquals(expectedError, errorMessage.getText().trim());
     }
 
     @Test
@@ -110,12 +109,11 @@ public class CardOrderTest {
         button.click();
 
         WebElement errorMessage = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'] .input__sub"))
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"))
         );
 
-        String actualText = errorMessage.getText().trim();
-        assertTrue(actualText.contains("Телефон указан неверно") ||
-                actualText.contains("неверно"));
+        String expectedError = "Телефон указан неверно. Допустим только номер в формате +7XXXXXXXXXX (11 цифр).";
+        assertEquals(expectedError, errorMessage.getText().trim());
     }
 
     @Test
@@ -130,10 +128,10 @@ public class CardOrderTest {
         WebElement button = driver.findElement(By.cssSelector("button[type='button']"));
         button.click();
 
-        WebElement agreement = driver.findElement(By.cssSelector("[data-test-id='agreement']"));
-        String classes = agreement.getAttribute("class");
-
-        assertTrue(classes.contains("invalid") || classes.contains("error"));
+        WebElement agreementError = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='agreement'].input_invalid"))
+        );
+        assertTrue(agreementError.isDisplayed());
     }
 
     @Test
@@ -152,13 +150,10 @@ public class CardOrderTest {
         button.click();
 
         WebElement errorMessage = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'] .input__sub"))
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'].input_invalid .input__sub"))
         );
 
-        String actualText = errorMessage.getText().trim();
-        assertFalse(actualText.isEmpty());
-        assertTrue(actualText.contains("Поле обязательно для заполнения") ||
-                actualText.contains("обязательно"));
+        assertEquals("Поле обязательно для заполнения", errorMessage.getText().trim());
     }
 
     @Test
@@ -177,13 +172,10 @@ public class CardOrderTest {
         button.click();
 
         WebElement errorMessage = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'] .input__sub"))
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"))
         );
 
-        String actualText = errorMessage.getText().trim();
-        assertFalse(actualText.isEmpty());
-        assertTrue(actualText.contains("Поле обязательно для заполнения") ||
-                actualText.contains("обязательно"));
+        assertEquals("Поле обязательно для заполнения", errorMessage.getText().trim());
     }
 
     @Test
