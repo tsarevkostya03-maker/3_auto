@@ -19,9 +19,10 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Start SUT and run tests
+      - name: Start SUT
         run: |
           java -jar ./artifacts/app-order.jar &
           sleep 10
-          chmod +x gradlew
-          ./gradlew test
+
+      - name: Run tests
+        run: ./gradlew test
