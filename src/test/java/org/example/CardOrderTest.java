@@ -32,11 +32,9 @@ public class CardOrderTest {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--window-size=1920,1080");
 
         driver = new ChromeDriver(options);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         driver.get(BASE_URL);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'] input")));
@@ -91,10 +89,8 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'].input_invalid .input__sub"))
         );
 
-        String actualText = errorMessage.getText().trim();
-        // Проверяем, что сообщение содержит ключевые слова об ошибке
-        assertTrue(actualText.contains("Имя") && actualText.contains("неверно"),
-                "Expected error about invalid name, but got: " + actualText);
+        String expectedError = "Имя и фамилия указаны неверно. Допустимы только русские буквы, пробелы и дефисы.";
+        assertEquals(expectedError, errorMessage.getText().trim());
     }
 
     @Test
@@ -116,10 +112,8 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"))
         );
 
-        String actualText = errorMessage.getText().trim();
-        // Проверяем, что сообщение содержит ключевые слова об ошибке
-        assertTrue(actualText.contains("Телефон") && actualText.contains("неверно"),
-                "Expected error about invalid phone, but got: " + actualText);
+        String expectedError = "Телефон указан неверно. Допустим только номер в формате +7XXXXXXXXXX (11 цифр).";
+        assertEquals(expectedError, errorMessage.getText().trim());
     }
 
     @Test
@@ -159,10 +153,7 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'].input_invalid .input__sub"))
         );
 
-        String actualText = errorMessage.getText().trim();
-        assertTrue(actualText.contains("Поле обязательно для заполнения") ||
-                        actualText.contains("обязательно"),
-                "Expected error about empty field, but got: " + actualText);
+        assertEquals("Поле обязательно для заполнения", errorMessage.getText().trim());
     }
 
     @Test
@@ -184,10 +175,7 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"))
         );
 
-        String actualText = errorMessage.getText().trim();
-        assertTrue(actualText.contains("Поле обязательно для заполнения") ||
-                        actualText.contains("обязательно"),
-                "Expected error about empty field, but got: " + actualText);
+        assertEquals("Поле обязательно для заполнения", errorMessage.getText().trim());
     }
 
     @Test
