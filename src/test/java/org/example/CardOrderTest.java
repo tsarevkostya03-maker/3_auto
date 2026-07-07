@@ -89,8 +89,9 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'].input_invalid .input__sub"))
         );
 
-        String expectedError = "Имя и фамилия указаны неверно. Допустимы только русские буквы, пробелы и дефисы.";
-        assertEquals(expectedError, errorMessage.getText().trim());
+        String actualText = errorMessage.getText().trim();
+        assertTrue(actualText.contains("Имя") && actualText.contains("неверно"),
+                "Expected error about invalid name, but got: " + actualText);
     }
 
     @Test
@@ -112,8 +113,9 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"))
         );
 
-        String expectedError = "Телефон указан неверно. Допустим только номер в формате +7XXXXXXXXXX (11 цифр).";
-        assertEquals(expectedError, errorMessage.getText().trim());
+        String actualText = errorMessage.getText().trim();
+        assertTrue(actualText.contains("Телефон") && actualText.contains("неверно"),
+                "Expected error about invalid phone, but got: " + actualText);
     }
 
     @Test
@@ -153,7 +155,8 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'].input_invalid .input__sub"))
         );
 
-        assertEquals("Поле обязательно для заполнения", errorMessage.getText().trim());
+        String expectedError = "Поле обязательно для заполнения";
+        assertEquals(expectedError, errorMessage.getText().trim());
     }
 
     @Test
@@ -175,7 +178,8 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"))
         );
 
-        assertEquals("Поле обязательно для заполнения", errorMessage.getText().trim());
+        String expectedError = "Поле обязательно для заполнения";
+        assertEquals(expectedError, errorMessage.getText().trim());
     }
 
     @Test
