@@ -155,8 +155,7 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'].input_invalid .input__sub"))
         );
 
-        String expectedError = "Поле обязательно для заполнения";
-        assertEquals(expectedError, errorMessage.getText().trim());
+        assertEquals("Поле обязательно для заполнения", errorMessage.getText().trim());
     }
 
     @Test
@@ -178,8 +177,7 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"))
         );
 
-        String expectedError = "Поле обязательно для заполнения";
-        assertEquals(expectedError, errorMessage.getText().trim());
+        assertEquals("Поле обязательно для заполнения", errorMessage.getText().trim());
     }
 
     @Test
