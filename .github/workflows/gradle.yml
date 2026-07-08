@@ -22,7 +22,6 @@ jobs:
       - name: Start SUT
         run: |
           java -jar ./artifacts/app-order.jar &
-          sleep 10
 
       - name: Run tests
-        run: ./gradlew test
+        run: ./gradlew test --info
