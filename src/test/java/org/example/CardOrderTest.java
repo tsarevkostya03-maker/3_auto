@@ -89,7 +89,7 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='name'].input_invalid .input__sub"))
         );
 
-        String expectedError = "Имя и фамилия указаны неверно. Допустимы только русские буквы, пробелы и дефисы.";
+        String expectedError = "Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.";
         assertEquals(expectedError, errorMessage.getText().trim());
     }
 
@@ -112,7 +112,7 @@ public class CardOrderTest {
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"))
         );
 
-        String expectedError = "Телефон указан неверно. Допустим только номер в формате +7XXXXXXXXXX (11 цифр).";
+        String expectedError = "Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.";
         assertEquals(expectedError, errorMessage.getText().trim());
     }
 
